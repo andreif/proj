@@ -18,5 +18,6 @@ setup(
         'dj-static',
         'django',
         'pywatchman',
+        'raven',
     ],
 )
