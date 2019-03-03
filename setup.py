@@ -19,5 +19,6 @@ setup(
         'django',
         'pywatchman',
         'raven',
+        'gunicorn',
     ],
 )
