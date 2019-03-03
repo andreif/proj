@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 import threading
 
 import django
@@ -7,10 +8,12 @@ from django.core import wsgi
 from django.utils import timezone
 from dj_static import Cling
 
+from proj.settings import SRC_ROOT
+
+sys.path.append(SRC_ROOT)
+
 _local = threading.local()
 _log = logging.getLogger(__name__)
-
-assert os.environ['DJANGO_SETTINGS_MODULE']
 
 
 def request_started():
