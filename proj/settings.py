@@ -245,9 +245,14 @@ if _env('SENTRY_DSN'):
     ]
     import raven
     if not VERSION:
-        VERSION = raven.fetch_git_sha(REPO_ROOT)
+        try:
+            VERSION = raven.fetch_git_sha(REPO_ROOT)
+        except raven.exceptions.InvalidGitRepository:
+            import logging
+            logging.exception("Failed fetching git sha.")
     RAVEN_CONFIG = {
         'release': VERSION,
+        # 'CELERY_LOGLEVEL': logging.INFO,
     }
 else:
     LOGGING['handlers']['sentry']['class'] = 'logging.NullHandler'
