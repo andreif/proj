@@ -16,7 +16,7 @@ setup(
         'psycopg2-binary',
         'requests',
         'dj-static',
-        'django',
+        'django >= 2.2b1',
         'pywatchman',
         'raven',
         'gunicorn',
