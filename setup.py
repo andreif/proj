@@ -16,7 +16,7 @@ setup(
         'psycopg2-binary',
         'requests',
         'dj-static',
-        'django >= 2.2b1',
+        'django >= 2.2.3',
         'pywatchman',
         'sentry-sdk',
         'gunicorn',
