@@ -18,7 +18,7 @@ setup(
         'dj-static',
         'django >= 2.2b1',
         'pywatchman',
-        'raven',
+        'sentry-sdk',
         'gunicorn',
     ],
 )

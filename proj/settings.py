@@ -241,19 +241,14 @@ LOGGING = {
 }
 
 if _env('SENTRY_DSN'):
-    INSTALLED_APPS += [
-        'raven.contrib.django.raven_compat',
-    ]
-    import raven
-    if not VERSION:
-        try:
-            VERSION = raven.fetch_git_sha(REPO_ROOT)
-        except raven.exceptions.InvalidGitRepository:
-            import logging
-            logging.exception("Failed fetching git sha.")
-    RAVEN_CONFIG = {
-        'release': VERSION,
-        # 'CELERY_LOGLEVEL': logging.INFO,
-    }
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    v = _env('HEROKU_RELEASE_VERSION')
+    if not VERSION and v:
+        VERSION = '%s-%s' % (v, _env('HEROKU_SLUG_COMMIT'))
+
+    sentry_sdk.init(integrations=[DjangoIntegration()], release=VERSION)
+
 else:
     LOGGING['handlers']['sentry']['class'] = 'logging.NullHandler'
