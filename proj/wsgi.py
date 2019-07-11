@@ -63,7 +63,8 @@ class WSGIHandler(wsgi.WSGIHandler):
 django.setup(set_prefix=False)
 application = Cling(WSGIHandler())
 
-
-if os.environ.get('SENTRY_DSN'):
-    from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
-    application = Sentry(application)
+# if os.environ.get('SENTRY_DSN'):
+#     import sentry_sdk
+#     from sentry_sdk.integrations.wsgi import SentryWsgiMiddleware
+#     sentry_sdk.init()
+#     application = SentryWsgiMiddleware(application)

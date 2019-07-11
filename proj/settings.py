@@ -9,6 +9,7 @@ BASE_DIR = dirname(abspath(__import__(_pkg).__file__))
 SRC_ROOT = dirname(BASE_DIR)
 REPO_ROOT = dirname(SRC_ROOT)
 FILE_CACHE_DIR = join(BASE_DIR, 'cached')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [join(BASE_DIR, 'static')]
 TEMPLATE_ROOT = join(BASE_DIR, 'templates')
@@ -27,6 +28,16 @@ if DEBUG:
 else:
     assert SECRET_KEY
 
+    # Honor the 'X-Forwarded-Proto' header for request.is_secure()
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+    SESSION_COOKIE_SECURE = CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SESSION_COOKIE_HTTPONLY = True
+    X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,7 +54,13 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 
 WSGI_APPLICATION = 'proj.wsgi.application'
 
@@ -107,6 +124,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 if _env('DJANGO_CACHE') == 'DUMMY':
     CACHES = {
@@ -158,7 +177,7 @@ LOGGING = {
     'disable_existing_loggers': True,
     'root': {
         'level': os.getenv('DJANGO_LOGGING_LEVEL', 'INFO'),
-        'handlers': ['console', 'sentry'],
+        'handlers': ['console'],
         'formatter': 'verbose',
         'propagate': True,
     },
@@ -175,7 +194,7 @@ LOGGING = {
         'django.server': {
             '()': 'proj.utils.logging.ServerFormatter',
             'format': '%(asctime)s,%(msecs)03d  %(proto)s %(status_code)s  '
-                      '%(message)s ~ %(duration)s %(size)s',
+                      '%(duration)s %(size)s  %(message)s',
             'datefmt': '%Y-%b-%d %a %z %H:%M:%S',
         },
     },
@@ -184,11 +203,6 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
-        },
-        'sentry': {
-            'level': 'ERROR',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-            'filters': ['require_debug_false'],
         },
         'django.server': {
             'level': 'INFO',
@@ -241,14 +255,19 @@ LOGGING = {
 }
 
 if _env('SENTRY_DSN'):
+    # import logging
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
+    # from sentry_sdk.integrations.logging import LoggingIntegration
 
     v = _env('HEROKU_RELEASE_VERSION')
     if not VERSION and v:
         VERSION = '%s-%s' % (v, _env('HEROKU_SLUG_COMMIT'))
 
-    sentry_sdk.init(integrations=[DjangoIntegration()], release=VERSION)
-
-else:
-    LOGGING['handlers']['sentry']['class'] = 'logging.NullHandler'
+    sentry_sdk.init(integrations=[
+        DjangoIntegration(),
+        # LoggingIntegration(
+        #     level=logging.INFO,  # Capture info and above as breadcrumbs
+        #     event_level=logging.ERROR  # Send errors as events
+        # )
+    ], release=VERSION)
