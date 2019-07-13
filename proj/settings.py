@@ -21,10 +21,9 @@ ALLOWED_HOSTS = _env('DJANGO_ALLOWED_HOSTS').split(',')
 INTERNAL_IPS = []
 
 if DEBUG:
-    import warnings
     print('\n  DEBUG =', DEBUG, '\n')
+    import warnings
     warnings.simplefilter('error')
-    warnings.filterwarnings('ignore', '.*collections.abc.*')  # jinja2<=2.10
 else:
     assert SECRET_KEY
 
@@ -62,6 +61,7 @@ USE_TZ = True
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -73,6 +73,7 @@ DATABASES = {'default': dj_database_url.config()}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'proj.middleware.SystemInfoMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -199,7 +200,7 @@ LOGGING = {
         'django.server': {
             '()': 'proj.utils.logging.ServerFormatter',
             'format': '%(asctime)s,%(msecs)03d  %(proto)s %(status_code)s  '
-                      '%(duration)s %(size)s  %(message)s',
+                      '%(size)8s %(duration)6s  %(message)s',
             'datefmt': '%Y-%b-%d %a %z %H:%M:%S',
         },
     },

@@ -47,4 +47,4 @@ class ServerFormatter(log.ServerFormatter):
 def format_size(size):
     size = filesizeformat(size)
     size = size.replace('\xa0', '')
-    return size.replace('bytes', 'B')
+    return size.replace('byte', 'B')
