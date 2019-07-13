@@ -9,3 +9,10 @@ heroku labs:enable metrics-beta
 heroku labs
 heroku run "env | sort"
 ```
+
+
+```
+heroku config:set DJANGO_SECRET_KEY=...
+heroku config:set DJANGO_ALLOWED_HOSTS=...
+heroku config:set DJANGO_SETTINGS_MODULE=...
+```
