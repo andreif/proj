@@ -6,7 +6,6 @@ import threading
 import django
 from django.core import wsgi
 from django.utils import timezone
-from dj_static import Cling
 
 from proj.settings import SRC_ROOT
 
@@ -61,7 +60,7 @@ class WSGIHandler(wsgi.WSGIHandler):
 
 
 django.setup(set_prefix=False)
-application = Cling(WSGIHandler())
+application = WSGIHandler()
 
 # if os.environ.get('SENTRY_DSN'):
 #     import sentry_sdk
