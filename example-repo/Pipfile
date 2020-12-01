@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+proj = {editable = true,git = "https://github.com/andreif/proj.git",ref = "1c3368b4d03f5810b5219c8db239481f4281d1fa"}
+#proj = {editable = true,path = "../../../proj-git"}
+
+[requires]
+python_version = "3.9"
+
+[pipenv]
+#allow_prereleases = true
