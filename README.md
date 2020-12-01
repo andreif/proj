@@ -21,3 +21,13 @@ heroku config:set DJANGO_SETTINGS_MODULE=...
 Updating dependecies:
  - remove Pipenv.lock
  - run `pipenv install`
+
+## New project
+
+- copy example repo
+- `git init && git add . && git commit -m initial`
+- replace example with project name 
+- change admin url
+- start postgres
+- `make setup`
+- `make server`

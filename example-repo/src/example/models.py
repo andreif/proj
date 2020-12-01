@@ -9,5 +9,5 @@ class _Model(m.Model):
         abstract = True
 
 
-class Example(_Model):
-    content = m.TextField(null=True)
+# class Example(_Model):
+#     content = m.TextField(null=True)

@@ -4,8 +4,6 @@ sys.path.append('src')
 import django
 django.setup()
 
-from example import api
-
 
 def task(func):
     def decorator():
@@ -19,6 +17,7 @@ def task(func):
 
 @task
 def example():
+    from example import api
     print("example", api.example())
 
 
