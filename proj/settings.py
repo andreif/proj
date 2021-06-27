@@ -71,6 +71,8 @@ WSGI_APPLICATION = 'proj.wsgi.application'
 
 DATABASES = {'default': dj_database_url.config()}
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',

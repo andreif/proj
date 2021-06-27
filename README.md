@@ -35,8 +35,14 @@ heroku addons:add newrelic:wayne
 heroku config:set DJANGO_SETTINGS_MODULE=example.settings
 heroku config:set DJANGO_ALLOWED_HOSTS=example.com
 heroku config:set DJANGO_SECRET_KEY=[random string of choice]
-heroku config:set DISABLE_COLLECTSTATIC=1 
+heroku config:set DISABLE_COLLECTSTATIC=1
 ```
+
+Deploy
+
+- git push to github or heroku
+- heroku run python src/manage.py createsuperuser
+
 
 Troubleshooting
 
@@ -61,7 +67,7 @@ heroku labs
 
 ### Stack update
 
-heroku stack:set heroku-18
+heroku stack:set heroku-20
 
 ### From scratch
 
