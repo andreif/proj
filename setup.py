@@ -14,6 +14,7 @@ setup(
         'dj-database-url',
         'Jinja2',
         'psycopg2-binary',
+        'pylibmc',
         'requests',
         'whitenoise',
         'Django',
