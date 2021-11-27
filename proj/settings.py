@@ -9,7 +9,7 @@ BASE_DIR = dirname(abspath(__import__(_pkg).__file__))
 SRC_ROOT = dirname(BASE_DIR)
 REPO_ROOT = dirname(SRC_ROOT)
 FILE_CACHE_DIR = join(BASE_DIR, 'cached')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = join(BASE_DIR, 'media')
 STATIC_ROOT = join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [join(BASE_DIR, 'static')]
 TEMPLATE_ROOT = join(BASE_DIR, 'templates')
@@ -60,6 +60,7 @@ USE_TZ = True
 
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
+DJANGO_ADMIN_URL = (_env('DJANGO_ADMIN_URL') or 'changeme').rstrip('/').lstrip('/') + '/'
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_FINDERS = (
