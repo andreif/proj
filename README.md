@@ -1,4 +1,4 @@
-# Proj
+# proj
 
 See https://github.com/andreif/proj-template
 
