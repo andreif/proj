@@ -17,7 +17,7 @@ setup(
         'pylibmc',
         'requests',
         'whitenoise',
-        'Django',
+        'Django>=4',
         'pywatchman',
         'sentry-sdk',
         'gunicorn',
