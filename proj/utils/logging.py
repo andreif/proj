@@ -19,8 +19,10 @@ class Formatter(logging.Formatter):
 
     def format(self, record):
         from django.conf import settings
-        for x in ['/site-packages/', str(settings.REPO_ROOT) + '/']:
+        repo_root = str(settings.REPO_ROOT) + '/'
+        for x in ['/site-packages/', repo_root]:
             record.pathname = record.pathname.split(x)[-1]
+        record.msg = record.msg.replace(repo_root, '')  # e.g. in autoreload
         clr = getattr(self.style, record.levelname, None)
         record.levelname = '%-7s' % record.levelname
         if clr:
