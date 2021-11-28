@@ -1,4 +1,5 @@
 import logging
+import pathlib
 
 from django.template.defaultfilters import filesizeformat
 from django.utils import log, termcolors
@@ -20,9 +21,20 @@ class Formatter(logging.Formatter):
     def format(self, record):
         from django.conf import settings
         repo_root = str(settings.REPO_ROOT) + '/'
-        for x in ['/site-packages/', repo_root]:
-            record.pathname = record.pathname.split(x)[-1]
-        record.msg = record.msg.replace(repo_root, '')  # e.g. in autoreload
+        proj_root = str(settings.PROJ_DIR.parent) + '/'
+
+        def clean(value):
+            if isinstance(value, (str, pathlib.PosixPath)):
+                value = str(value).replace(proj_root, '')  # e.g. in autoreload
+                value = value.replace(repo_root, '')
+            return value
+
+        for x in ['/site-packages/']:
+            record.pathname = clean(record.pathname).split(x)[-1]
+
+        record.msg = clean(record.msg)
+        record.args = tuple(clean(a) for a in record.args)
+
         clr = getattr(self.style, record.levelname, None)
         record.levelname = '%-7s' % record.levelname
         if clr:

@@ -5,6 +5,7 @@ from pathlib import Path
 
 _env = os.environ.get
 _pkg = _env('DJANGO_SETTINGS_MODULE').rsplit('.', 1)[0]
+PROJ_DIR = Path(__file__).resolve().parent
 BASE_DIR = Path(__import__(_pkg).__file__).resolve().parent
 SRC_ROOT = BASE_DIR.parent
 REPO_ROOT = SRC_ROOT.parent
