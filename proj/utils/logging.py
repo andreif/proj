@@ -19,7 +19,7 @@ class Formatter(logging.Formatter):
 
     def format(self, record):
         from django.conf import settings
-        for x in ['/site-packages/', settings.REPO_ROOT + '/']:
+        for x in ['/site-packages/', str(settings.REPO_ROOT) + '/']:
             record.pathname = record.pathname.split(x)[-1]
         clr = getattr(self.style, record.levelname, None)
         record.levelname = '%-7s' % record.levelname

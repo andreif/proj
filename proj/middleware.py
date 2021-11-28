@@ -17,6 +17,6 @@ class SystemInfoMiddleware:
 
 class CustomSessionMiddleware(SessionMiddleware):
     def process_response(self, request, response):
-        if request.path.starswith(settings.ADMIN_URL):
+        if request.path.startswith(settings.ADMIN_URL):
             return super().process_response(request=request, response=response)
         return response
