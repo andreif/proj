@@ -1,18 +1,18 @@
 import os
-from os.path import abspath, dirname, join
 import dj_database_url
 from django.utils import log
+from pathlib import Path
 
 _env = os.environ.get
 _pkg = _env('DJANGO_SETTINGS_MODULE').rsplit('.', 1)[0]
-BASE_DIR = dirname(abspath(__import__(_pkg).__file__))
-SRC_ROOT = dirname(BASE_DIR)
-REPO_ROOT = dirname(SRC_ROOT)
-FILE_CACHE_DIR = join(BASE_DIR, 'cached')
-MEDIA_ROOT = join(BASE_DIR, 'media')
-STATIC_ROOT = join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [join(BASE_DIR, 'static')]
-TEMPLATE_ROOT = join(BASE_DIR, 'templates')
+BASE_DIR = Path(__import__(_pkg).__file__).resolve().parent
+SRC_ROOT = BASE_DIR.parent
+REPO_ROOT = SRC_ROOT.parent
+FILE_CACHE_DIR = BASE_DIR / 'cached'
+MEDIA_ROOT = BASE_DIR / 'media'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+TEMPLATE_ROOT = BASE_DIR / 'templates'
 
 VERSION = _env('SOURCE_COMMIT')
 SECRET_KEY = _env('DJANGO_SECRET_KEY')
@@ -59,7 +59,7 @@ USE_TZ = True
 
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-DJANGO_ADMIN_URL = (_env('DJANGO_ADMIN_URL') or 'changeme').rstrip('/').lstrip('/') + '/'
+ADMIN_URL = (_env('DJANGO_ADMIN_URL') or 'changeme').rstrip('/').lstrip('/') + '/'
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_FINDERS = (
@@ -77,7 +77,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'proj.middleware.SystemInfoMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'proj.middleware.CustomSessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
