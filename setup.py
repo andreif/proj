@@ -13,11 +13,11 @@ setup(
     install_requires=[
         'dj-database-url',
         'Jinja2',
-        'psycopg2-binary',
+        'psycopg2',
         'pylibmc',
         'requests',
         'whitenoise',
-        'Django>=4.0rc1',
+        'Django',
         'pywatchman',
         'sentry-sdk',
         'gunicorn',
