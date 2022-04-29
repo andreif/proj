@@ -13,7 +13,7 @@ setup(
     install_requires=[
         'dj-database-url',
         'Jinja2',
-        'psycopg[binary]',
+        'psycopg',
         'pylibmc',
         'requests',
         'whitenoise',
