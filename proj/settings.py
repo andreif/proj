@@ -60,7 +60,7 @@ USE_TZ = True
 
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-ADMIN_URL = (_env('DJANGO_ADMIN_URL') or 'changeme').rstrip('/').lstrip('/') + '/'
+ADMIN_URL = (_env('DJANGO_ADMIN_URL') or 'change_me').rstrip('/').lstrip('/') + '/'
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_FINDERS = (
@@ -70,7 +70,8 @@ STATICFILES_FINDERS = (
 
 WSGI_APPLICATION = 'proj.wsgi.application'
 
-DATABASES = {'default': dict(dj_database_url.config(), ENGINE='django.db.backends.postgresql')}
+DATABASES = {'default': dj_database_url.config()}
+DATABASES['default']['ENGINE'] = DATABASES['default']['ENGINE'].replace('_psycopg2', '')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -242,11 +243,6 @@ LOGGING = {
         },
         'django.db.backends': {
             'level': 'WARNING',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'raven': {
-            'level': 'ERROR',
             'handlers': ['console'],
             'propagate': False,
         },
