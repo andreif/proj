@@ -70,7 +70,7 @@ STATICFILES_FINDERS = (
 
 WSGI_APPLICATION = 'proj.wsgi.application'
 
-DATABASES = {'default': dj_database_url.config()}
+DATABASES = {'default': dict(dj_database_url.config(), ENGINE='django.db.backends.postgresql')}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
