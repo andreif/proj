@@ -9,6 +9,8 @@ class SystemInfoMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        for method in 'GET POST PUT DELETE'.split():
+            setattr(request, 'is_' + method, request.method == method)
         response = self.get_response(request)
         response['X-App-Version'] = settings.VERSION
         response['X-App-Server'] = socket.gethostname()
