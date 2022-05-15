@@ -11,15 +11,16 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'dj-database-url',
         'Jinja2',
         'psycopg2',
         'pylibmc',
         'requests',
         'whitenoise',
-        'Django',
         'pywatchman',
         'sentry-sdk',
         'gunicorn',
+        'Django',
+        'dj-database-url',
+        'django-cors-headers',
     ],
 )
